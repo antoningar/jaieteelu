@@ -1,8 +1,12 @@
 ﻿using twitter;
 
 Candidat candidat = CandidatService.GetCandidats();
-Console.WriteLine(candidat.nom);
+
+IEnumerable<string> parts = BuilderService.Build(candidat);
+
 CandidatService.SaveCandidat(candidat.nom);
+
+
 
 async Task SendTweetAsync(IEnumerable<string> tweets){
     OAuthClient client = new();
