@@ -11,4 +11,9 @@
       <PackageReference Include="OAuth.DotNetCore" Version="3.0.1" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Update="candidats.json" CopyToOutputDirectory="PreserveNewest" />
+        <None Update="old_candidats.json" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
 </Project>
