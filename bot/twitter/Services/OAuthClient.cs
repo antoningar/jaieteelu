@@ -1,7 +1,7 @@
 using System.Text;
 using OAuth;
 
-namespace twitter;
+namespace twitter.Services;
 
 public class OAuthClient
 {
