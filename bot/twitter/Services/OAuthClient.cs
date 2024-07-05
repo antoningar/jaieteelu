@@ -1,26 +1,23 @@
 using System.Text;
+using Microsoft.Extensions.Options;
 using OAuth;
+using twitter.Options;
 
 namespace twitter.Services;
 
 public class OAuthClient
 {
-    private const string CONSUMER_KEY = "";
-    private const string CONSUMER_SECRET = "";
-    private const string ACCESS_TOKEN = "";
-    private const string ACCESS_TOKEN_SECRET = "";
-
-    public static async Task<string> MakeAuthenticatedRequestAsync(string resourceUrl, HttpMethod method, string body)
+    public static async Task<string> MakeAuthenticatedRequestAsync(IOptions<TwitterOption> options, string resourceUrl, HttpMethod method, string body)
     {
         OAuthRequest oauth = new()
         {
             Method = method.ToString(),
             Type = OAuthRequestType.ProtectedResource,
             SignatureMethod = OAuthSignatureMethod.HmacSha1,
-            ConsumerKey = CONSUMER_KEY,
-            ConsumerSecret = CONSUMER_SECRET,
-            Token = ACCESS_TOKEN,
-            TokenSecret = ACCESS_TOKEN_SECRET,
+            ConsumerKey = options.Value.ConsumerKey ,
+            ConsumerSecret = options.Value.ConsumerSecret,
+            Token = options.Value.AccessToken,
+            TokenSecret = options.Value.AccessTokenSecret,
             RequestUrl = resourceUrl
         };
 
