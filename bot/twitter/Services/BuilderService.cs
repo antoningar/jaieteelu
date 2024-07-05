@@ -1,14 +1,16 @@
+using twitter.Gpt;
+
 namespace twitter.Services;
 
 public static class BuilderService
 {
-    public static IEnumerable<string> Build(Candidat candidat)
+    public static async Task<IEnumerable<string>> Build(Candidat candidat, GptOptions gptOptions)
     {
         List<string> parts =
         [
             GetFirstPart(candidat.nom, candidat.circonscription),
         ];
-        parts = BuildAnecdotes(parts, candidat.anecdotes);
+        parts = await BuildAnecdotes(gptOptions, parts, candidat.anecdotes);
         parts.Add(BuildRefs(candidat.refs));
 
         return parts;
@@ -19,10 +21,10 @@ public static class BuilderService
         return $"Je suis {nom}, {circonscription}";
     }
 
-    private static List<string> BuildAnecdotes(List<string> parts, string[] anecdotes)
+    private static async Task<List<string>> BuildAnecdotes(GptOptions gptOption, List<string> parts, string[] anecdotes)
     {
-        // parts.AddRange(GptService.GetPrompt(anecdotes));
-        parts.AddRange(anecdotes);
+        string[] newAnecdotes = await GptService.BuildAnecdotesAsync(gptOption, anecdotes);
+        parts.AddRange(newAnecdotes);
         return parts;
     }
 
