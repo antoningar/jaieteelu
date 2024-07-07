@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace twitter.Services;
+namespace twitter.Candidats;
 
 public static class CandidatService
 {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using twitter;
+using twitter.Candidats;
 using twitter.Gpt;
 using twitter.Options;
 using twitter.Services;
@@ -20,6 +21,7 @@ Candidat candidat = CandidatService.GetCandidats();
 
 IEnumerable<string> parts = await BuilderService.Build(candidat, gptOption);
 // SendTweetAsync(Options.Create(), parts);
+IEnumerable<string> parts = await JsonService.Build(candidat, gptOption);
 
 CandidatService.SaveCandidat(candidat.nom);
 

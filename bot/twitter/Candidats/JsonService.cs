@@ -1,8 +1,8 @@
 using twitter.Gpt;
 
-namespace twitter.Services;
+namespace twitter.Candidats;
 
-public static class BuilderService
+public static class JsonService
 {
     public static async Task<IEnumerable<string>> Build(Candidat candidat, GptOptions gptOptions)
     {
