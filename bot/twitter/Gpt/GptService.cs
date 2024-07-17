@@ -31,6 +31,7 @@ public static class GptService
         const string URL = "https://api.openai.com/v1/chat/completions";
         GptRequest request = new(gptOption.Model, anecdotes);
         string jsonBody = JsonSerializer.Serialize(request);
+        Console.WriteLine($"GPT prompt : {string.Join(" | ", anecdotes)}");
         
         HttpRequestMessage requestMessage = new(HttpMethod.Post, URL);
         requestMessage.Content = new StringContent(jsonBody);
@@ -49,6 +50,8 @@ public static class GptService
         Console.WriteLine($"{promptTokens} prompt tokens, {completionTokens} completion tokens");
 
         string[] responses = nodeResponse["choices"]![0]!["message"]!["content"]!.GetValue<string>().Split(" :: ");
+        Console.WriteLine($"GPT Response : {string.Join(" | ", responses)}");
+        
         return responses;
     }
 }

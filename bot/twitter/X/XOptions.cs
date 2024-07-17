@@ -1,6 +1,6 @@
-namespace twitter.Options;
+namespace twitter.X;
 
-public class TwitterOption
+public class XOptions
 {
     public string ConsumerKey { get; set; } = string.Empty;
     public string ConsumerSecret { get; set; } = string.Empty;
