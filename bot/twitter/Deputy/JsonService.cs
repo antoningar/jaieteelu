@@ -1,35 +1,35 @@
 using System.Text;
 using twitter.Gpt;
 
-namespace twitter.Candidats;
+namespace twitter.Deputy;
 
 public static class JsonService
 {
-    public static async Task<IEnumerable<string>> Build(Candidat candidat, GptOptions gptOptions)
+    public static async Task<IEnumerable<string>> Build(Deputy deputy, GptOptions gptOptions)
     {
         List<string> parts =
         [
-            GetFirstPart(candidat.nom, candidat.circonscription),
+            GetFirstPart(deputy.name, deputy.constituency),
         ];
         
-        string[] anecdotes = SplitByMaxSize(candidat.anecdotes);
-        parts = await BuildAnecdotes(gptOptions, parts, anecdotes);
+        string[] facts = SplitByMaxSize(deputy.facts);
+        parts = await BuildFacts(gptOptions, parts, facts);
         
-        parts = parts.Concat(candidat.refs).ToList();
+        parts = parts.Concat(deputy.refs).ToList();
 
         return parts;
     }
 
-    private static string[] SplitByMaxSize(string[] candidatAnecdotes)
+    private static string[] SplitByMaxSize(string[] deputyFacts)
     {
         const int MAX_SIZE = 280;
         string[] result = [];
 
-        foreach (string anecdote in candidatAnecdotes)
+        foreach (string fact in deputyFacts)
         {
             string[] substrings = [];
 
-            string[] words = anecdote.Split();
+            string[] words = fact.Split();
             StringBuilder currentString = new();
 
             foreach (string word in words)
@@ -53,15 +53,15 @@ public static class JsonService
         return result;
     }
 
-    private static string GetFirstPart(string nom, string circonscription)
+    private static string GetFirstPart(string name, string constituency)
     {
-        return $"Je suis {nom}, {circonscription}";
+        return $"Je suis {name}, {constituency}";
     }
 
-    private static async Task<List<string>> BuildAnecdotes(GptOptions gptOption, List<string> parts, string[] anecdotes)
+    private static async Task<List<string>> BuildFacts(GptOptions gptOption, List<string> parts, string[] facts)
     {
-        string[] newAnecdotes = await GptService.BuildAnecdotesAsync(gptOption, anecdotes);
-        parts.AddRange(newAnecdotes);
+        string[] newFacts = await GptService.BuildAnecdotesAsync(gptOption, facts);
+        parts.AddRange(newFacts);
         return parts;
     }
 }

@@ -8,7 +8,7 @@ namespace twitter.X;
 
 public static class XService
 {
-    public static async Task PostCandidat(XOptions options, IEnumerable<string> parts)
+    public static async Task PostDeputy(XOptions options, IEnumerable<string> parts)
     {
         string[] contents = parts as string[] ?? parts.ToArray();
         string result = await PostTweet(options, BuildRequest(contents[0]));
