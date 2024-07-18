@@ -44,7 +44,7 @@ public static class DeputyService
         do
         {
             Deputy tmpDeputy = GetRandomDeputy(baseDeputies.ToArray());
-            choosenDeputy = oldDeputies.Contains(tmpDeputy.name) ? null : tmpDeputy;
+            choosenDeputy = oldDeputies.Contains(tmpDeputy.Name) ? null : tmpDeputy;
         } while (choosenDeputy is null);
 
         return choosenDeputy;

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using twitter.Deputy;
-using twitter.Gpt;
 using twitter.X;
 
 IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -10,17 +9,13 @@ IConfigurationRoot configuration = new ConfigurationBuilder()
 XOptions xOptions = new();
 configuration.GetSection("Twitter").Bind(xOptions);
 
-GptOptions gptOption = new();
-configuration.GetSection("Gpt").Bind(gptOption);
-
 try {
     Deputy deputy = DeputyService.GetDeputies();
-    Console.WriteLine($"Deputy : {deputy.name}");
-    IEnumerable<string> parts = await JsonService.Build(deputy, gptOption);
+    Console.WriteLine($"Deputy : {deputy.Name}");
 
-    await XService.PostDeputy(xOptions, parts);
+    await XService.PostDeputy(xOptions, deputy.SplitDeputy());
 
-    DeputyService.SaveDeputy(deputy.name);
+    DeputyService.SaveDeputy(deputy.Name);
 }
 catch (Exception ex)
 {
