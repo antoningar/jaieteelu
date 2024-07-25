@@ -9,11 +9,20 @@ IConfigurationRoot configuration = new ConfigurationBuilder()
 XOptions xOptions = new();
 configuration.GetSection("Twitter").Bind(xOptions);
 
+string picturesPath = configuration.GetSection("PicturesPath").Value!;
+
 try {
     Deputy deputy = DeputyService.GetDeputies();
     Console.WriteLine($"Deputy : {deputy.Name}");
 
-    await XService.PostDeputy(xOptions, deputy.SplitDeputy());
+    FileInfo fileInfo = new(Path.Combine(picturesPath, deputy.Name.Replace(" ", "_") + ".jpg"));
+    if (!fileInfo.Exists)
+    {
+        Environment.Exit(-1);    
+    }
+    
+    long mediaId = await XService.UploadPicturesAsync(xOptions, fileInfo.FullName);
+    await XService.PostDeputy(xOptions, deputy.SplitDeputy(), mediaId);
 
     DeputyService.SaveDeputy(deputy.Name);
 }
