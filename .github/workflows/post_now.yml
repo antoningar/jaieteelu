@@ -77,3 +77,14 @@ jobs:
             
             - name: run
               run: dotnet run --project ./bot/twitter/twitter.csproj
+
+            - name: date
+              run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+
+            - name: update old_deputies file
+              run: |
+                git config --global user.name 'github-action'
+                git config user.email github-actions@github.com
+                git add ${{ github.workspace }}/bot/twitter/old_deputies.json
+                git commit -m "action ran on ${{ steps.date.outputs.date }}"
+                git push
