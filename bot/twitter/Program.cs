@@ -11,7 +11,7 @@ XOptions xOptions = new();
 configuration.GetSection("Twitter").Bind(xOptions);
 
 FileOptions fileOptions = new();
-configuration.GetSectio>n("FilesPaths").Bind(fileOptions);
+configuration.GetSection("FilesPaths").Bind(fileOptions);
 
 try {
     Deputy deputy = DeputyService.GetDeputies(fileOptions.BaseDeputyFilePath, fileOptions.OldDeputyFilePath);
